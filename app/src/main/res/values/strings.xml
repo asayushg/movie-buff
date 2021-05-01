@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Movie Buff</string>
+    <string name="movie_image">Movie Image</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="search">Search</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="no_more_results">No more results</string>
+    <string name="load_more">Load More</string>
+    <string name="retry">retry</string>
+    <string name="exit">Exit</string>
 </resources>

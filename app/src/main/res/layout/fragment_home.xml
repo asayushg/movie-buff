@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context="ui.home.HomeFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/navHost"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/moviesRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/graph_main" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

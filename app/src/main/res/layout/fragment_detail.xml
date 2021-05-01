@@ -4,13 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context="ui.detail.DetailFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/navHost"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/graph_main" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
