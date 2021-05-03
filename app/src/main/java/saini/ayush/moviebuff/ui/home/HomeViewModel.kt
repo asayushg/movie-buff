@@ -2,32 +2,43 @@ package saini.ayush.moviebuff.ui.home
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import saini.ayush.moviebuff.model.Movie
+import saini.ayush.moviebuff.network.utils.DataState
+import saini.ayush.moviebuff.network.utils.MainStateEvent
+import saini.ayush.moviebuff.repository.Repository
 
 class HomeViewModel
 @ViewModelInject
 constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val repository: Repository
 ) : ViewModel() {
 
+    var movies = mutableListOf<Movie>()
+    var page = 0
 
-    fun getMovies(): List<Movie> {
+    private val _dataState: MutableLiveData<DataState<List<Movie>>> = MutableLiveData()
 
-        val movies = mutableListOf<Movie>()
+    val dataState: LiveData<DataState<List<Movie>>>
+        get() = _dataState
 
-        for (i in 100..110){
-            movies.add(
-                Movie(
-                    i,
-                    "Avengers Endgame The Enddscdknc",
-                    "https://cdn.flickeringmyth.com/wp-content/uploads/2019/04/Endgame-Poster-Posse-5-600x911.jpg"
-                )
-            )
+    fun setStateEvent(mainStateEvent: MainStateEvent, page: Int) {
+        viewModelScope.launch {
+            when (mainStateEvent) {
+                is MainStateEvent.GetPopularMoviesEvent -> {
+                    repository.getPopularMovies(page)
+                        .onEach { dataState ->
+                            _dataState.value = dataState
+                        }
+                        .launchIn(viewModelScope)
+                }
+            }
         }
-
-        return movies
     }
 
 }

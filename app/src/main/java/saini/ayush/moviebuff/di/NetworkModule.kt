@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import saini.ayush.moviebuff.network.MoviesApi
 import saini.ayush.moviebuff.utils.Constants
 import javax.inject.Singleton
 
@@ -32,5 +33,11 @@ object NetworkModule {
             .baseUrl(Constants.BASE_URL)
     }
 
+    @Singleton
+    @Provides
+    fun provideMoviesApi(retrofit: Retrofit.Builder): MoviesApi {
+        return retrofit.build()
+            .create(MoviesApi::class.java)
+    }
 
 }

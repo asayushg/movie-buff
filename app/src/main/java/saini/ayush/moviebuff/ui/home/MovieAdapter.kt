@@ -3,15 +3,20 @@ package saini.ayush.moviebuff.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.listitem_load_more.view.*
 import kotlinx.android.synthetic.main.listitem_movie.view.*
 import kotlinx.android.synthetic.main.listitem_retry.view.*
 import saini.ayush.moviebuff.R
 import saini.ayush.moviebuff.model.Movie
+import saini.ayush.moviebuff.utils.Constants.IMAGE_BASE_URL
+
 
 class MovieAdapter(
     private val interaction: Interaction? = null,
@@ -138,17 +143,26 @@ class MovieAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Movie) = with(itemView) {
-            itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+
+
+            movie_title.apply {
+                text = item.title
+                transitionName = item.title
             }
 
-            movie_title.text = item.title
-            movie_img.clipToOutline = true
-            Glide.with(this)
-                .load(item.photo)
-                .into(movie_img)
+            movie_img.apply {
+                clipToOutline = true
+                transitionName = item.poster_path
+                Glide
+                    .with(this)
+                    .load(IMAGE_BASE_URL + item.poster_path)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(this)
+            }
 
-
+            linear.setOnClickListener {
+                interaction?.onItemSelected(absoluteAdapterPosition, movie_img, movie_title, item)
+            }
         }
     }
 
@@ -195,7 +209,7 @@ class MovieAdapter(
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Movie)
+        fun onItemSelected(position: Int, imageView: ImageView, textView: TextView, item: Movie)
     }
 
     interface RetryInteraction {

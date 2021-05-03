@@ -3,6 +3,7 @@
     package="saini.ayush.moviebuff">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".BaseApplication"
@@ -12,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieBuff">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.detail.DetailActivity"
+            android:theme="@style/Theme.MovieBuff.NoActionBar"/>
+        <activity android:name=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
