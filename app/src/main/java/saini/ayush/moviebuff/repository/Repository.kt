@@ -36,7 +36,7 @@ class Repository(
             emit(DataState.Success(popularMovies.movies))
         } catch (e: Exception) {
             val cachedMovies = moviesDao.get()
-            if (cachedMovies.isNotEmpty()) emit(
+            if (cachedMovies.isNotEmpty() && page == 1) emit(
                 DataState.Success(
                     cacheMapper.mapFromEntityList(
                         cachedMovies

@@ -5,19 +5,18 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.Window
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
-import androidx.core.view.setPadding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,13 +32,12 @@ import saini.ayush.moviebuff.utils.Constants
 import saini.ayush.moviebuff.utils.SpacesItemDecoration
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter.RetryInteraction,
-    SearchView.OnQueryTextListener {
+class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter.RetryInteraction {
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var adapter: MovieAdapter
-    private lateinit var searchView: SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -215,17 +213,7 @@ class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-
-        val searchItem = menu!!.findItem(R.id.app_bar_search)
-
-        searchView = searchItem.actionView as SearchView
-        searchView.queryHint = "Search Movies"
-        searchView.isIconified = false
-        searchView.onActionViewCollapsed()
-        searchView.setOnQueryTextListener(this)
-
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
@@ -294,16 +282,6 @@ class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter
             .withColor(ContextCompat.getColor(this, R.color.red_200))
 
         snackbar.show()
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        Log.d("ayusht", newText.toString())
-        return true
     }
 
 }
