@@ -4,20 +4,24 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import saini.ayush.moviebuff.cache.CacheMapper
+import saini.ayush.moviebuff.cache.MoviesDao
 import saini.ayush.moviebuff.network.MoviesApi
 import saini.ayush.moviebuff.repository.Repository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object RepositoryModule{
+object RepositoryModule {
 
     @Singleton
     @Provides
     fun provideRecipeRepository(
-        moviesApi: MoviesApi
-    ) : Repository {
-        return Repository(moviesApi)
+        moviesDao: MoviesDao,
+        moviesApi: MoviesApi,
+        cacheMapper: CacheMapper,
+    ): Repository {
+        return Repository(moviesDao, moviesApi, cacheMapper)
     }
 
 }

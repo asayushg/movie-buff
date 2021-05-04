@@ -190,7 +190,7 @@ class MovieAdapter(
 
         fun bind(item: Movie) = with(itemView) {
             retryBtn.setOnClickListener {
-                interaction?.onItemSelected()
+                interaction?.onItemSelected(true)
             }
         }
     }
@@ -203,7 +203,7 @@ class MovieAdapter(
 
         fun bind(item: Movie) = with(itemView) {
             loadMoreBtn.setOnClickListener {
-                interaction?.onItemSelected()
+                interaction?.onItemSelected(false)
             }
         }
     }
@@ -213,7 +213,7 @@ class MovieAdapter(
     }
 
     interface RetryInteraction {
-        fun onItemSelected()
+        fun onItemSelected(retry: Boolean)
     }
 
 }

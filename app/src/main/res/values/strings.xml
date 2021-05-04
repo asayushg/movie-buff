@@ -26,5 +26,7 @@
         "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n"
     </string>
     <string name="overview">Overview</string>
+    <string name="toolbar_transition">toolbar_transition</string>
+    <string name="popularmovies">Popular Movies</string>
 
 </resources>

@@ -27,15 +27,11 @@ class DetailActivity : AppCompatActivity() {
 
         movie = intent.getSerializableExtra("movie") as Movie
 
-        try {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            toolbar_layout.title = movie.title
-        } catch (e: Exception) {
-        }
 
-
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar_layout.title = movie.title
 
         initUi()
 

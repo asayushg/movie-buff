@@ -1,15 +1,18 @@
 package saini.ayush.moviebuff.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import saini.ayush.moviebuff.cache.CacheMapper
+import saini.ayush.moviebuff.cache.MoviesDao
 import saini.ayush.moviebuff.model.Movie
 import saini.ayush.moviebuff.network.MoviesApi
 import saini.ayush.moviebuff.network.utils.DataState
 import saini.ayush.moviebuff.utils.Constants
 
 class Repository(
-    private val moviesApi: MoviesApi
+    private val moviesDao: MoviesDao,
+    private val moviesApi: MoviesApi,
+    var cacheMapper: CacheMapper,
 ) {
 
     suspend fun getPopularMovies(page: Int): Flow<DataState<List<Movie>>> = flow {
@@ -24,22 +27,27 @@ class Repository(
                 page
             )
 
+            val movies = cacheMapper.mapToEntityList(popularMovies.movies)
 
-            //  val news = networkMapper.mapFromEntityList(networkTopHeadlines.articles)
+            for (movieItem in movies) {
+                moviesDao.insert(movieItem)
+            }
 
-            //  for (newsItem in news) {
-            //      newsDao.insert(cacheMapper.mapToEntity(newsItem))
-            //  }
-
-            //  val cachedNews = newsDao.get()
             emit(DataState.Success(popularMovies.movies))
-
-
         } catch (e: Exception) {
-            Log.d("repo", e.toString())
-            // val cachedNews = newsDao.get()
-            // emit(DataState.Success(cacheMapper.mapFromEntityList(cachedNews)))
-            emit(DataState.Error(java.lang.Exception("Something went wrong")))
+            val cachedMovies = moviesDao.get()
+            if (cachedMovies.isNotEmpty()) emit(
+                DataState.Success(
+                    cacheMapper.mapFromEntityList(
+                        cachedMovies
+                    )
+                )
+            )
+            else emit(
+                DataState.Error(
+                    java.lang.Exception("Something Went Wrong")
+                )
+            )
         }
 
     }
