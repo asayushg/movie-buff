@@ -6,19 +6,18 @@ import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.Window
+import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
+import androidx.core.view.setPadding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,7 +77,9 @@ class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter
                     .equals("MOBILE DATA", ignoreCase = true)
             ) if (info.isConnected) have_MobileData = true
         }
-        if (!have_WIFI && !have_MobileData) showSnackbar("No Internet Connection", moviesRV)
+        if (!have_WIFI && !have_MobileData) {
+            showSnackbar("No Internet Connection", moviesRV)
+        }
     }
 
     private fun resetMovies() {
@@ -288,10 +289,11 @@ class HomeActivity : AppCompatActivity(), MovieAdapter.Interaction, MovieAdapter
     }
 
     fun showSnackbar(msg: String, view: View) {
-        Snackbar
+        val snackbar = Snackbar
             .make(view, msg, Snackbar.LENGTH_LONG)
-            .withColor(ContextCompat.getColor(this, R.color.red_500))
-            .show()
+            .withColor(ContextCompat.getColor(this, R.color.red_200))
+
+        snackbar.show()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
